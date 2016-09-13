@@ -23,9 +23,9 @@ class VehiculoSeeder extends Seeder {
                     Vehiculo::create
                         ([
                             'color' => $faker->safeColorName(),
-                            'cilindraje' => $faker->randomFloat(2),
+                            'cilindraje' => $faker->randomFloat(2,0,1000),
                             'potencia' => $faker->randomNumber(3),
-                            'peso' => $faker->randomFloat(2),
+                            'peso' => $faker->randomFloat(2,800,2000),
                             'fabricante_id' => $faker->numberBetween(1, $cantidad)
                         ]);
                 }
