@@ -10,6 +10,6 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('/','VehiculosController@showAll');
+Route::resource('vehiculos','VehiculosController', ['only' => [ 'index', 'show']]);
 Route::resource('fabricantes', 'FabricanteController');
-Route::resource('fabricantes.vehiculos', 'VehiculosController');
+Route::resource('fabricantes.vehiculos', 'FabricanteVehiculosController',['except' => ['show']]);

@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use \App\Fabricante;
 use Illuminate\Http\Request;
 
 class FabricanteController extends Controller {
@@ -14,7 +14,7 @@ class FabricanteController extends Controller {
 	 */
 	public function index()
 	{
-		return 'mostrando todos los fabricantes.';
+		return response()->json(['datos' => Fabricante::all()],200);
 	}
 
 	/**
@@ -45,7 +45,12 @@ class FabricanteController extends Controller {
 	 */
 	public function show($id)
 	{
-		return 'mostrando fabricante ' . $id;
+                $fabricante = Fabricante::find($id);
+                if (!$fabricante)
+                    {
+                        return response()->json(['mensaje' => "No se encuentra el fabricante con id=$id",'codigo' => 404],404); 
+                    }
+		return response()->json(['datos' => $fabricante],200);
 	}
 
 	/**
