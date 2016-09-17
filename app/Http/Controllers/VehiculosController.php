@@ -6,8 +6,8 @@ use \App\Vehiculo;
 use Illuminate\Http\Request;
 
 class VehiculosController extends Controller {
-
-	/**
+       
+        /**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
@@ -32,5 +32,4 @@ class VehiculosController extends Controller {
                     }
 		return response()->json(['datos' => $vehiculo],200);
 	}
-
 }
