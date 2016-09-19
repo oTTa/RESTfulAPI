@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class FabricanteVehiculosController extends Controller {
     
         public function __construct() {
-            $this->middleware('auth.basic',['only' => ['store','update','destroy']]);
+            $this->middleware('auth.basic.once',['only' => ['store','update','destroy']]);
         }
     
         /**
@@ -26,15 +26,6 @@ class FabricanteVehiculosController extends Controller {
 		return response()->json(['datos' => $fabricante->vehiculos()->get()],200);
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create($id)
-	{
-		return 'mostrando formulario para crear un vehiculo para el fabricante ' .$id;
-	}
 
 	/**
 	 * Store a newly created resource in storage.
@@ -56,17 +47,6 @@ class FabricanteVehiculosController extends Controller {
             return response()->json(['mensaje' => 'Vehiculo insertado.'],200);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($idFabricante, $idVehiculo)
-	{
-		return ('Mostrando edición del vehiculo ' . $idVehiculo . ' del fabricante ' . $idFabricante);
-
-	}
 
 	/**
 	 * Update the specified resource in storage.

@@ -10,6 +10,14 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+
+/*SE EJECUTAN DE MANERA SECUENCIAL POR ESO ES IMPORTANTE EL ORDEN. */
 Route::resource('vehiculos','VehiculosController', ['only' => [ 'index', 'show']]);
-Route::resource('fabricantes', 'FabricanteController');
-Route::resource('fabricantes.vehiculos', 'FabricanteVehiculosController',['except' => ['show']]);
+Route::resource('fabricantes', 'FabricanteController', ['except' => ['edit', 'create']]);
+Route::resource('fabricantes.vehiculos', 'FabricanteVehiculosController',['except' => ['show', 'edit', 'create']]);
+
+/*ATRAPA LOS DEMAS ROUTEOS QUE SERIAN INCORRECTOS*/
+Route::pattern('inexistente', '.*');//EXPRESION REGULAR (.*), ATRAPA TODO
+Route::any('/{inexistentes}',function(){
+    return response()->json(['mensaje' => "Ruta y/o metodo incorrectos",'codigo' => 400],400); 
+});   
