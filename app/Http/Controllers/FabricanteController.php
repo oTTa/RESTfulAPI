@@ -71,12 +71,12 @@ class FabricanteController extends Controller {
             if ($metodo === 'PATCH')
             {   
                 
-                if ($nombre!=null && $nombre!='')
-                    $fabricante->nombre = $nombre;
+                if ($nombre!=null && $nombre!=''){
+                $fabricante->nombre = $nombre;}
                 
                 
-                if ($telefono!=null && $telefono!='')
-                    $fabricante->telefono = $telefono;
+                if ($telefono!=null && $telefono!=''){
+                $fabricante->telefono = $telefono;}
                 
                 $fabricante->save();
                 return response()->json(['mensaje' => 'fabricante actualizado'],200);

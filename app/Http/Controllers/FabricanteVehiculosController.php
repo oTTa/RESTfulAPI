@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Vehiculo;
 use App\Fabricante;
@@ -75,9 +74,71 @@ class FabricanteVehiculosController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($idFabricante, $idVehiculo)
+	public function update(Request $request, $idFabricante, $idVehiculo)
 	{
-		//
+	    $metodo = $request->method();
+            $fabricante = Fabricante::find($idFabricante);
+            if (!$fabricante)
+            {
+                return response()->json(['mensaje' => "No se encuentra el fabricante con id=$idFabricante",'codigo' => 404],404);  
+            }
+            
+            $vehiculo = $fabricante->vehiculos()->find($idVehiculo);
+            
+            if (!$vehiculo)
+            {
+                return response()->json(['mensaje' => "No se encuentra el vehiculo con id=$idVehiculo asociado al fabricante id=$idFabricante",'codigo' => 404],404);  
+            }
+            
+            $color = $request->input('color');
+            $cilindraje = $request->input('cilindraje');
+            $peso = $request->input('peso');
+            $potencia = $request->input('potencia');
+            if ($metodo === 'PATCH')
+            {   
+                $flag=false;
+                
+                if ($color!=null && $color!=''){
+                    $vehiculo->color = $color;
+                    $flag=true;
+                }
+                
+                
+                if ($cilindraje!=null && $cilindraje!=''){
+                    $vehiculo->cilindraje = $cilindraje;
+                    $flag=true;
+                }
+                
+                
+                if ($peso!=null && $peso!=''){
+                    $vehiculo->peso = $peso;
+                    $flag=true;
+                }
+                
+                if ($potencia!=null && $potencia!=''){
+                    $vehiculo->potencia = $potencia;
+                    $flag=true;
+                }
+                
+                if ($flag){
+                    $vehiculo->save();
+                    return response()->json(['mensaje' => 'vehiculo actualizado'],200);
+                }
+                else{
+                    return response()->json(['mensaje' => 'todos los parametros son nulos o vacios, no se realizaron cambios en el vehiculo.'],304);
+                }
+            }
+            
+            if (!$color || !$cilindraje || !$peso || !$potencia)
+            {
+                return response()->json(['mensaje' => 'No se pudieron procesar los valores','codigo' => 422],422);
+            }
+            $vehiculo->color = $color;
+            $vehiculo->cilindraje = $cilindraje;
+            $vehiculo->peso = $peso;
+            $vehiculo->potencia = $potencia;
+            $vehiculo->save();
+            return response()->json(['mensaje' => 'vehiculo actualizado'],200);
 	}
 
 	/**
