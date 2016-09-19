@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use \App\Fabricante;
+use App\Vehiculo;
 use Illuminate\Http\Request;
 
 class FabricanteController extends Controller {
@@ -101,7 +102,21 @@ class FabricanteController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+            $fabricante = Fabricante::find($id);
+            if (!$fabricante)
+            {
+                return response()->json(['mensaje' => "No se encuentra el fabricante con id=$id",'codigo' => 404],404);  
+            }
+            
+            $vehiculos = $fabricante->vehiculos;
+            
+            if (sizeof($vehiculos)>0)
+            {
+                return response()->json(['mensaje' => "El fabricante con id=$id tiene vehiculos asiciados, eliminar primero sus vehiculos",'codigo' => 409],409);
+            }
+            $fabricante->delete();
+            
+            return response()->json(['mensaje' => 'fabricante eliminado'],200);
 	}
 
 }
