@@ -1,9 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use \App\Fabricante;
-use App\Vehiculo;
+use App\Fabricante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class FabricanteController extends Controller {
 
@@ -18,7 +18,12 @@ class FabricanteController extends Controller {
 	 */
 	public function index()
 	{
-		return response()->json(['datos' => Fabricante::all()],200);
+                //DURANTE 15 SEG CACHEA LA RESPUESTA PARA EVITAR SOBRECARGA EN LA BD
+                $fabricantes = Cache::remember('fabricantes', 15/60, function()
+                {
+                    return Fabricante::simplePaginate(15);
+                });
+		return response()->json(['siguiente' => $fabricantes->nextPageUrl(), 'anterior' => $fabricantes->previousPageUrl(), 'datos' => $fabricantes->items()],200);
 	}
 
 	/**
