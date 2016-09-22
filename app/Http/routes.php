@@ -12,9 +12,12 @@
 */
 
 /*SE EJECUTAN DE MANERA SECUENCIAL POR ESO ES IMPORTANTE EL ORDEN. */
-Route::resource('vehiculos','VehiculosController', ['only' => [ 'index', 'show']]);
-Route::resource('fabricantes', 'FabricanteController', ['except' => ['edit', 'create']]);
-Route::resource('fabricantes.vehiculos', 'FabricanteVehiculosController',['except' => ['show', 'edit', 'create']]);
+Route::group(array('prefix' => 'api/v1'), function ()
+{
+    Route::resource('vehiculos','VehiculosController', ['only' => [ 'index', 'show']]);
+    Route::resource('fabricantes', 'FabricanteController', ['except' => ['edit', 'create']]);
+    Route::resource('fabricantes.vehiculos', 'FabricanteVehiculosController',['except' => ['show', 'edit', 'create']]);
+});    
 
 /*ATRAPA LOS DEMAS ROUTEOS QUE SERIAN INCORRECTOS*/
 Route::pattern('inexistente', '.*');//EXPRESION REGULAR (.*), ATRAPA TODO
